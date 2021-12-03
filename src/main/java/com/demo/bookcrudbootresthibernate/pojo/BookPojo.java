@@ -9,7 +9,19 @@ package com.demo.bookcrudbootresthibernate.pojo;
 // overide hashcode()
 // overide toString()
 
+
+
 public class BookPojo {
+
+	public BookPojo(int id, String bookTitle, String bookGenre, String bookAuthor, int bookCost, boolean bookRemoved) {
+		super();
+		this.id = id;
+		this.bookTitle = bookTitle;
+		this.bookGenre = bookGenre;
+		this.bookAuthor = bookAuthor;
+		this.bookCost = bookCost;
+		this.bookRemoved = bookRemoved;
+	}
 
 	// convinient if the DB columns count and type matches the pojo variables
 	private int id;
