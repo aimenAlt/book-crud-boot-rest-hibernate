@@ -2,6 +2,7 @@ package com.demo.bookcrudbootresthibernate.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +26,7 @@ public class BookServiceImpl implements BookService{
 	
 	public BookServiceImpl() {
 		//this.bookDao = new BookDaoImpl();
-		// commented this line so that we can tell the SF
+		// commented this line so that we can tell the Spring Framework
 			// to autowire
 		//this.bookDao = new BookJdbcDaoImpl();
 	}
@@ -43,9 +44,14 @@ public class BookServiceImpl implements BookService{
 
 	@Override
 	public BookPojo updateBook(BookPojo bookPojo) throws ApplicationException {
-//		logger.info("Entered updateBook() in service.");
-//		BookPojo returnBookPojo = this.bookRepositoryDao.saveAndFlush(bookPojo);
-//		logger.info("Exited updateBook() in service.");
+		logger.info("Entered updateBook() in service.");
+        //BookPojo returnBookPojo = this.bookRepositoryDao.saveAndFlush(bookPojo);
+		Book updateBook = new Book(bookPojo.getId(), bookPojo.getBookTitle(), bookPojo.getBookGenre(), bookPojo.getBookAuthor(), bookPojo.getBookCost(), bookPojo.isBookRemoved());
+		// we use save method for update also, the primary key is used 
+			//to figure out whether it is an insert or update by spring
+			//data jpa, if primary key exists it is an update, else insert
+		Book returnBook = bookRepositoryDao.save(updateBook);
+		logger.info("Exited updateBook() in service.");
 		return bookPojo;
 	}
 
@@ -60,23 +66,46 @@ public class BookServiceImpl implements BookService{
 	@Override
 	public List<BookPojo> getAllBooks() throws ApplicationException {
 		logger.info("Entered getAllBooks() in service.");
-		List<BookPojo> allBooks = new ArrayList<BookPojo>();// = this.bookRepositoryDao.findAll();
+		
+		//call the findAll method to fetch all the records
+		List<Book> allBooksEntity = this.bookRepositoryDao.findAll();
+		
+		List<BookPojo> allBooksPojo = new ArrayList<BookPojo>();
+		//iterating through the collection of book entities(allBooksEntity) and copying them 
+				//into a collection of book pojos (allBooksPojo) 
+		allBooksEntity.forEach((book)-> {
+			BookPojo bookPojo = new BookPojo(book.getBookId(), book.getBookTitle(), book.getBookGenre(), book.getBookAuthor(), book.getBookCost(), book.isBookRemoved());
+			allBooksPojo.add(bookPojo);
+		});
 		logger.info("Exited getAllBooks() in service.");
-		return allBooks;
+		return allBooksPojo;
 	}
 
 	@Override
 	public BookPojo getABook(int bookId) throws ApplicationException {
-//		logger.info("Entered getABook() in service.");
+		logger.info("Entered getABook() in service.");
 //		BookPojo returnBookPojo = this.bookDao.getABook(bookId);
-//		logger.info("Exited getABook() in service.");
-		return new BookPojo();
+		BookPojo bookPojo = null;
+		// call the findById to fetch a record by ID
+		// findById returns java.util.Optional which contains the book entity 
+		Optional<Book> optional = this.bookRepositoryDao.findById(bookId);
+		if(optional.isPresent()) {
+			//take out the book entity from the optional and store 
+				// in a Book reference
+			Book book = optional.get();
+			// copying entity into pojo
+			bookPojo = new BookPojo(book.getBookId(), book.getBookTitle(), book.getBookGenre(), book.getBookAuthor(), book.getBookCost(), book.isBookRemoved());
+		}
+		logger.info("Exited getABook() in service.");
+		return bookPojo;
 	}
 
 	@Override
 	public void exitApplication() {
 		// TODO Auto-generated method stub
-		
+		// no implementation required for closing connection here 
+			//as Spring Data will take care 
+			// of the connections
 	}
 
 	
