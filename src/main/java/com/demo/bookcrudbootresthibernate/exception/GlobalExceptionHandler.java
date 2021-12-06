@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-//@ControllerAdvice
+@ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 
 	
@@ -30,5 +30,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 	    return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
 	}
 
-	
+	// go ahead and create methods to handle other exceptions
+	// use @ExceptionHandler annotation above the handler methods
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import com.demo.bookcrudbootresthibernate.pojo.BookPojo;
 
 //@Component
 @Service
+@Transactional 
 public class BookServiceImpl implements BookService{
 
 	private static final Logger logger = LogManager.getLogger(BookServiceImpl.class);

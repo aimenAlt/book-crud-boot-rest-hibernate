@@ -29,6 +29,7 @@ public class BookController {
 				//the field/property bookService
 	BookService bookService;
 	
+	// preferred is return ResponseEntity in your rest methods, 
 	@PostMapping("books")
 	BookPojo addBook(@Valid @RequestBody BookPojo bookPojo) throws ApplicationException{
 		return bookService.addBook(bookPojo);
@@ -53,6 +54,7 @@ public class BookController {
 	BookPojo getABook(@PathVariable("bid") int bookId) throws ApplicationException{
 		return bookService.getABook(bookId);
 	}
+	
 	
 //	@GetMapping("books/pending")
 //	BookPojo getPendingBook(int bookId) throws ApplicationException{
