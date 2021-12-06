@@ -35,9 +35,9 @@ public class BookServiceImpl implements BookService{
 	public BookPojo addBook(BookPojo bookPojo) throws ApplicationException {
 		logger.info("Entered addBook() in service.");
 		//BookPojo returnBookPojo = this.bookDao.addBook(bookPojo);
-		Book newBook = new Book(bookPojo.getId(), bookPojo.getBookTitle(), bookPojo.getBookGenre(), bookPojo.getBookAuthor(), bookPojo.getBookCost(), bookPojo.isBookRemoved());
+		Book newBook = new Book(bookPojo.getBookId(), bookPojo.getBookTitle(), bookPojo.getBookGenre(), bookPojo.getBookAuthor(), bookPojo.getBookCost(), bookPojo.isBookRemoved());
 		Book returnBook = bookRepositoryDao.saveAndFlush(newBook);
-		bookPojo.setId(returnBook.getBookId());
+		bookPojo.setBookId(returnBook.getBookId());
 		logger.info("Exited addBook() in service.");
 		return bookPojo;
 	}
@@ -46,7 +46,7 @@ public class BookServiceImpl implements BookService{
 	public BookPojo updateBook(BookPojo bookPojo) throws ApplicationException {
 		logger.info("Entered updateBook() in service.");
         //BookPojo returnBookPojo = this.bookRepositoryDao.saveAndFlush(bookPojo);
-		Book updateBook = new Book(bookPojo.getId(), bookPojo.getBookTitle(), bookPojo.getBookGenre(), bookPojo.getBookAuthor(), bookPojo.getBookCost(), bookPojo.isBookRemoved());
+		Book updateBook = new Book(bookPojo.getBookId(), bookPojo.getBookTitle(), bookPojo.getBookGenre(), bookPojo.getBookAuthor(), bookPojo.getBookCost(), bookPojo.isBookRemoved());
 		// we use save method for update also, the primary key is used 
 			//to figure out whether it is an insert or update by spring
 			//data jpa, if primary key exists it is an update, else insert
@@ -74,7 +74,7 @@ public class BookServiceImpl implements BookService{
 		//iterating through the collection of book entities(allBooksEntity) and copying them 
 				//into a collection of book pojos (allBooksPojo) 
 		allBooksEntity.forEach((book)-> {
-			BookPojo bookPojo = new BookPojo(book.getBookId(), book.getBookTitle(), book.getBookGenre(), book.getBookAuthor(), book.getBookCost(), book.isBookRemoved());
+			BookPojo bookPojo = new BookPojo(book.getBookId(), book.getBookTitle(), book.getBookGenre(), book.getBookAuthor(), book.getBookCost(), book.isBookRemoved(),"");
 			allBooksPojo.add(bookPojo);
 		});
 		logger.info("Exited getAllBooks() in service.");
@@ -94,7 +94,7 @@ public class BookServiceImpl implements BookService{
 				// in a Book reference
 			Book book = optional.get();
 			// copying entity into pojo
-			bookPojo = new BookPojo(book.getBookId(), book.getBookTitle(), book.getBookGenre(), book.getBookAuthor(), book.getBookCost(), book.isBookRemoved());
+			bookPojo = new BookPojo(book.getBookId(), book.getBookTitle(), book.getBookGenre(), book.getBookAuthor(), book.getBookCost(), book.isBookRemoved(),"");
 		}
 		logger.info("Exited getABook() in service.");
 		return bookPojo;
@@ -110,3 +110,5 @@ public class BookServiceImpl implements BookService{
 
 	
 }
+
+

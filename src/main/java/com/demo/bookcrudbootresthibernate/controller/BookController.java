@@ -2,6 +2,8 @@ package com.demo.bookcrudbootresthibernate.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,12 +30,12 @@ public class BookController {
 	BookService bookService;
 	
 	@PostMapping("books")
-	BookPojo addBook(@RequestBody BookPojo bookPojo) throws ApplicationException{
+	BookPojo addBook(@Valid @RequestBody BookPojo bookPojo) throws ApplicationException{
 		return bookService.addBook(bookPojo);
 	}
 	
 	@PutMapping("books/{bid}")
-	BookPojo updateBook(@RequestBody BookPojo bookPojo) throws ApplicationException{
+	BookPojo updateBook(@Valid @RequestBody BookPojo bookPojo) throws ApplicationException{
 		return bookService.updateBook(bookPojo);
 	}
 	
