@@ -45,5 +45,5 @@
     	<appender-ref ref="Console" />
         <appender-ref ref="RollingFile" />
     </logger>
-
+   
 </configuration>
