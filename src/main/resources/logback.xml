@@ -43,7 +43,7 @@
     <!-- LOG "com.demo*" at TRACE level -->
     <logger name="com.demo" level="trace" additivity="false">
     	<appender-ref ref="Console" />
-        <appender-ref ref="RollingFile" />
+        <appender-ref ref="RollingFile" />  
     </logger>
      
 </configuration>
