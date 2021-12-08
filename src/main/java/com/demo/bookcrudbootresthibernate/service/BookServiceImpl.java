@@ -85,7 +85,7 @@ public class BookServiceImpl implements BookService{
 		//logger.info("Exited getAllBooks() in service.");
 		return allBooksPojo;
 	}
-
+  
 	@Override
 	public BookPojo getABook(int bookId) throws ApplicationException {
 		//logger.info("Entered getABook() in service.");
